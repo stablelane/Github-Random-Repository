@@ -2,6 +2,7 @@ import { Octokit } from "https://esm.sh/@octokit/core";
 import { key } from "./key.js";
 const dropdownHead = document.getElementById('dropdown-head')
 const dropdownList = document.getElementById('dropdown-list')
+dropdownHead.addEventListener('click', showList)
 
 console.log(key)
 
@@ -16,7 +17,7 @@ async function getRandomRepo(languageName) {
             'X-GitHub-Api-Version': '2022-11-28'
         }
     })
-    .then(data => console.log(data.data.items[Math.round(Math.random() * 30)]))
+    .then(data => displayRepo(data.data.items[Math.round(Math.random() * 30)]))
 }
 
 console.log()
@@ -42,13 +43,6 @@ function addEventListenerOnList(arr) {
 
 }
 
-
-
-dropdownHead.addEventListener('click', showList)
-
-
-
-
 let selectedItem
 function selectItem(e) {
     if (selectedItem) {
@@ -65,4 +59,7 @@ function selectItem(e) {
 
 function showList() {
     dropdownList.classList.toggle('show-list')
+}
+function displayRepo(data) {
+    console.log(data)
 }

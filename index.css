@@ -1,6 +1,7 @@
 html {
     margin: 0;
 }
+
 body {
     display: flex;
     justify-content: center;
@@ -27,12 +28,14 @@ body {
     display: flex;
     font-size: 1.2em;
     justify-content: space-between;
-    width: 150px;
+    width: 270px;
     border: 2px solid black;
     padding: 0.5em 0.7em;
     border-radius: 0.5em;
     cursor: pointer;
+    margin-bottom: 0.7em;
 }
+
 .dropdown-head p {
     margin: 0;
 }
@@ -53,7 +56,7 @@ body {
     position: relative;
     margin: 0 -0.99em;
     font-size: 1.2em;
-    padding: 0.5em ;
+    padding: 0.5em;
     border-bottom: 2px solid black;
 }
 
@@ -67,10 +70,70 @@ body {
     width: 22px;
     display: none;
 }
+
 .show-icon {
     display: inline;
 }
 
 .show-list {
     display: block;
+}
+
+.repo-card {
+    width: 270px;
+    border: 2px solid black;
+    padding: 1.5em 1em;
+    border-radius: 0.5em;
+    cursor: pointer;
+}
+.repo-card p {
+    margin: 0;
+}
+.repo {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2em;
+}
+.repo-name {
+    font-size: 1.5em;
+    font-weight: 500;
+}
+.repo-details {
+    color: grey;
+}
+
+.repo-stats {
+    display: flex;
+    justify-content: space-around;
+    color: grey;
+}
+
+.lang,
+.star,
+.fork,
+.issue {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 0.8em;
+    gap: 5px;
+}
+
+.lang img,
+.star img,
+.fork img,
+.issue img {
+    width: 15px;
+}
+
+.refresh-btn {
+    width: 305px;
+    margin-top: 0.6em;
+    background-color: black;
+    color: #fff;
+    border: none;
+    font-size: 1.3em;
+    font-weight: 600;
+    border-radius: 10px;
+    padding: 0.6em 0;
 }
