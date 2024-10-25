@@ -49,6 +49,7 @@ body {
 }
 
 .dropdown li {
+    cursor: pointer;
     position: relative;
     margin: 0 -0.99em;
     font-size: 1.2em;
