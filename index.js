@@ -2,6 +2,12 @@ import { Octokit } from "https://esm.sh/@octokit/core";
 import { key } from "./key.js";
 const dropdownHead = document.getElementById('dropdown-head')
 const dropdownList = document.getElementById('dropdown-list')
+const refreshBtn = document.getElementById('refresh-btn')
+refreshBtn.addEventListener('click',() => {
+    getRandomRepo(dropdownHead.firstChild.innerText)
+    document.getElementById('repo-visible').style.display = 'none'
+    document.getElementById('placeholder-card').style.display = 'block'
+    })
 dropdownHead.addEventListener('click', showList)
 
 console.log(key)
@@ -17,7 +23,11 @@ async function getRandomRepo(languageName) {
             'X-GitHub-Api-Version': '2022-11-28'
         }
     })
-    .then(data => displayRepo(data.data.items[Math.round(Math.random() * 30)]))
+    .then(data => {
+        displayRepo(data.data.items[Math.round(Math.random() * 30)],languageName)
+        document.getElementById('placeholder-card').style.display = 'none'
+        document.getElementById('repo-visible').style.display = 'block'
+        })
 }
 
 console.log()
@@ -47,7 +57,7 @@ let selectedItem
 function selectItem(e) {
     if (selectedItem) {
         selectedItem.classList.remove('show-icon')
-    }
+    } 
     dropdownHead.innerHTML = `<p>${this.innerText}</p>
                                     <p>⌄</p>`
 
@@ -55,11 +65,37 @@ function selectItem(e) {
     selectedItem = this.children[0]
     selectedItem.classList.add('show-icon')
     getRandomRepo(this.innerText)
+    document.getElementById('repo-visible').style.display = 'none'
+    document.getElementById('placeholder-card').style.display = 'block'
+    document.getElementById('placeholder-card').textContent = 'Loading, Please wait..'
 }
 
 function showList() {
     dropdownList.classList.toggle('show-list')
 }
-function displayRepo(data) {
-    console.log(data)
+function displayRepo(data,languageName) {
+    document.getElementById('repo-card').innerHTML = `
+                <div class="repo">
+                    <p class="repo-name">${data.name}</p>
+                    <p class="repo-details">${data.description}</p>
+                    <div class="repo-stats">
+                        <div class="lang">
+                            <img src="icon/yellow-circle.svg" alt="">
+                            <p class="lang-name">${languageName}</p>
+                        </div>
+                        <div class="star">
+                            <img src="icon/star-sharp.svg" alt="">
+                            <p class="star-count">${data.stargazers_count}</p>
+                        </div>
+                        <div class="fork">
+                            <img src="icon/git-fork.svg" alt="">
+                            <p class="fork-count">${data.forks}</p>
+                        </div>
+                        <div class="issue">
+                            <img src="icon/issue-opened.svg" alt="">
+                            <p class="issue-count">${data.open_issues}</p>
+                        </div>
+                    </div>
+                </div>
+    `
 }

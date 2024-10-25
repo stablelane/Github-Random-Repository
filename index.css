@@ -78,6 +78,17 @@ body {
 .show-list {
     display: block;
 }
+.placeholder-card {
+    width: 305px;
+    box-sizing: border-box;
+    background-color: rgb(235, 227, 227);
+    padding: 2em 4em;
+    border-radius: 10px;
+    font-weight: 400;
+}
+.repo-visible {
+    display: none;
+}
 
 .repo-card {
     width: 270px;
