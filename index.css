@@ -97,6 +97,11 @@ body {
     border-radius: 0.5em;
     cursor: pointer;
 }
+.repo-card a {
+    text-decoration: none;
+    color: black;
+
+}
 .repo-card p {
     margin: 0;
 }

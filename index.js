@@ -3,11 +3,11 @@ import { key } from "./key.js";
 const dropdownHead = document.getElementById('dropdown-head')
 const dropdownList = document.getElementById('dropdown-list')
 const refreshBtn = document.getElementById('refresh-btn')
-refreshBtn.addEventListener('click',() => {
+refreshBtn.addEventListener('click', () => {
     getRandomRepo(dropdownHead.firstChild.innerText)
     document.getElementById('repo-visible').style.display = 'none'
     document.getElementById('placeholder-card').style.display = 'block'
-    })
+})
 dropdownHead.addEventListener('click', showList)
 
 console.log(key)
@@ -15,19 +15,33 @@ console.log(key)
 // Octokit.js
 // https://github.com/octokit/core.js#readme
 async function getRandomRepo(languageName) {
-    const octokit = new Octokit({
-        auth: key
-    })
-    await octokit.request(`GET /search/repositories?q=language:${languageName}&sort=stars&order=desc`, {
-        headers: {
-            'X-GitHub-Api-Version': '2022-11-28'
-        }
-    })
-    .then(data => {
-        displayRepo(data.data.items[Math.round(Math.random() * 30)],languageName)
-        document.getElementById('placeholder-card').style.display = 'none'
-        document.getElementById('repo-visible').style.display = 'block'
+    try {
+        const octokit = new Octokit({
+            auth: key
         })
+        await octokit.request(`GET /search/repositories?q=language:${languageName}&sort=stars&order=desc`, {
+            headers: {
+                'X-GitHub-Api-Version': '2022-11-28'
+            }
+        })
+            .then(data => {
+                displayRepo(data.data.items[Math.round(Math.random() * 30)], languageName)
+                document.getElementById('placeholder-card').style.display = 'none'
+                document.getElementById('repo-visible').style.display = 'block'
+                refreshBtn.textContent = 'Refresh'
+                refreshBtn.style.backgroundColor = 'black'
+                document.getElementById('repo-card').style.backgroundColor = '#fff'
+            })
+    }
+    catch {
+        document.getElementById('repo-visible').style.display = 'block'
+        document.getElementById('placeholder-card').style.display = 'none'
+        refreshBtn.textContent = 'Click to Retry'
+        refreshBtn.style.backgroundColor = 'red'
+        document.getElementById('repo-card').style.backgroundColor = '#ddbbbb'
+        document.getElementById('repo-card').textContent = "Error Fetching repositories"
+    }
+
 }
 
 console.log()
@@ -57,7 +71,7 @@ let selectedItem
 function selectItem(e) {
     if (selectedItem) {
         selectedItem.classList.remove('show-icon')
-    } 
+    }
     dropdownHead.innerHTML = `<p>${this.innerText}</p>
                                     <p>⌄</p>`
 
@@ -73,9 +87,10 @@ function selectItem(e) {
 function showList() {
     dropdownList.classList.toggle('show-list')
 }
-function displayRepo(data,languageName) {
+function displayRepo(data, languageName) {
+    console.log(data.html_url)
     document.getElementById('repo-card').innerHTML = `
-                <div class="repo">
+                <a href="${data.html_url}" target="_blank" class="repo">
                     <p class="repo-name">${data.name}</p>
                     <p class="repo-details">${data.description}</p>
                     <div class="repo-stats">
@@ -96,6 +111,6 @@ function displayRepo(data,languageName) {
                             <p class="issue-count">${data.open_issues}</p>
                         </div>
                     </div>
-                </div>
+                </a>
     `
 }
